@@ -1,13 +1,11 @@
 services:
   app:
-    image: eclipse-temurin:21-jre-alpine
-    container_name: cicd-app
+    image: tomcat:10.1-jdk21
+    container_name: cicd-tomcat
     ports:
       - "8080:8080"
     volumes:
-      - ./target/Pipe_CI_CD-0.0.1-SNAPSHOT.jar:/app.jar
-    working_dir: /app
-    command: ["java", "-jar", "/app.jar"]
+      - ./target/Pipe_CI_CD-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/ROOT.war
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/cicd
       - SPRING_DATASOURCE_USERNAME=user
@@ -18,7 +16,6 @@ services:
       - postgres
     networks:
       - app-network
-    restart: unless-stopped
 
   postgres:
     image: postgres:16-alpine
@@ -38,23 +35,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  postgres-test:
-    image: postgres:16-alpine
-    container_name: cicd-postgres-test
-    environment:
-      - POSTGRES_DB=cicd_test
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
-    ports:
-      - "5433:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - app-network
 
 volumes:
   postgres_data:
