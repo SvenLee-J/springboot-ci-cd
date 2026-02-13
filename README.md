@@ -34,3 +34,9 @@ spring:
 server:
   port: 8080
 ``` 
+
+#### 3.2. docker-compouse.yml
+
+Solo utilizaremos un docker-compouse.yml
+
+#### 3.3. 
