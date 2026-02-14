@@ -15,7 +15,7 @@
     <groupId>IFC33</groupId>
     <artifactId>Pipe_CI_CD</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>  <!-- 🔥 CAMBIADO: war → jar -->
+    <packaging>jar</packaging>
     <name>Pipe_CI_CD</name>
     
     <properties>
