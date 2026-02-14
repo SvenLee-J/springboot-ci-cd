@@ -1,19 +1,17 @@
 services:
   app:
-    image: tomcat:10.1-jdk21
-    container_name: cicd-tomcat
+    build: ./Backend
+    container_name: cicd-app
     ports:
       - "8080:8080"
-    volumes:
-      - ./target/Pipe_CI_CD-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/ROOT.war
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/cicd
-      - SPRING_DATASOURCE_USERNAME=user
-      - SPRING_DATASOURCE_PASSWORD=pass
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_JPA_SHOW_SQL=true
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cicd
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     networks:
       - app-network
 
@@ -21,9 +19,9 @@ services:
     image: postgres:16-alpine
     container_name: cicd-postgres
     environment:
-      - POSTGRES_DB=cicd
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
+      POSTGRES_DB: cicd
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
     ports:
       - "5432:5432"
     volumes:
@@ -31,7 +29,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user"]
+      test: ["CMD-SHELL", "pg_isready -U user -d cicd"]
       interval: 10s
       timeout: 5s
       retries: 5
