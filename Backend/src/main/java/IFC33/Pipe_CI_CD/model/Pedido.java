@@ -12,11 +12,11 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
     
-    private LocalDateTime fecha;
-    
+    private LocalDateTime fecha = LocalDateTime.now();
     private Double total;
 }
+
