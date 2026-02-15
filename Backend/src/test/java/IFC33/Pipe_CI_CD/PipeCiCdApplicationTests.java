@@ -3,7 +3,7 @@ package IFC33.Pipe_CI_CD;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SimpleTest {
+public class PipeCiCdApplicationTests {
 
     @Test
     void testBasico() {

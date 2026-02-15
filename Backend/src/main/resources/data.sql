@@ -1,4 +1,3 @@
--- PRIMERO: CREAR TABLAS (JPA las crea, pero para estar seguros)
 CREATE TABLE IF NOT EXISTS usuarios (
     id BIGSERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -18,7 +17,6 @@ CREATE TABLE IF NOT EXISTS pedidos (
     fecha TIMESTAMP
 );
 
--- DESPUÉS: INSERTAR DATOS
 INSERT INTO usuarios (nombre, email) VALUES 
 ('Ana López', 'ana@test.com'), ('Pedro García', 'pedro@test.com'),
 ('María Ruiz', 'maria@test.com'), ('Juan Pérez', 'juan@test.com'),
