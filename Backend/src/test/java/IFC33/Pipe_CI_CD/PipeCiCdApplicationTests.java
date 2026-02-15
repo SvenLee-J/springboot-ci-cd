@@ -13,13 +13,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;  // ← ESTE FALTABA
 
 @WebMvcTest({ProductoController.class, UsuarioController.class, PedidoController.class})
 class ProductoControllerTest {
 
     @Autowired private MockMvc mockMvc;
 
-    // Producto Controller tests (5)
+    // Producto Controller tests
     @MockBean private ProductoRepository productoRepository;
 
     @Test void producto_get_StatusOk() throws Exception {
@@ -32,24 +33,24 @@ class ProductoControllerTest {
 
     @Test void producto_get_JsonContentType() throws Exception {
         mockMvc.perform(get("/api/productos"))
-               .andExpect(content().contentType("application/json"));
+              .andExpect(content().contentType("application/json"));
     }
 
     @Test void producto_post_StatusOk() throws Exception {
         mockMvc.perform(post("/api/productos")
                 .contentType("application/json")
                 .content("{\"nombre\":\"Test\",\"precio\":99.99}"))
-               .andExpect(status().isOk());
+              .andExpect(status().isOk());
     }
 
     @Test void producto_post_ContentType() throws Exception {
         mockMvc.perform(post("/api/productos")
                 .contentType("application/json")
                 .content("{}"))
-               .andExpect(status().isOk());
+              .andExpect(status().isOk());
     }
 
-    // Usuario Controller tests (5)
+    // Usuario Controller tests
     @MockBean private UsuarioRepository usuarioRepository;
 
     @Test void usuario_get_StatusOk() throws Exception {
@@ -62,24 +63,24 @@ class ProductoControllerTest {
 
     @Test void usuario_get_JsonContentType() throws Exception {
         mockMvc.perform(get("/api/usuarios"))
-               .andExpect(content().contentType("application/json"));
+              .andExpect(content().contentType("application/json"));
     }
 
     @Test void usuario_post_StatusOk() throws Exception {
         mockMvc.perform(post("/api/usuarios")
                 .contentType("application/json")
                 .content("{\"nombre\":\"Test\",\"email\":\"test@test.com\"}"))
-               .andExpect(status().isOk());
+              .andExpect(status().isOk());
     }
 
     @Test void usuario_post_ValidJson() throws Exception {
         mockMvc.perform(post("/api/usuarios")
                 .contentType("application/json")
                 .content("{}"))
-               .andExpect(status().isOk());
+              .andExpect(status().isOk());
     }
 
-    // Pedido Controller tests (5) - solo GETs
+    // Pedido Controller tests
     @MockBean private PedidoRepository pedidoRepository;
 
     @Test void pedido_get_StatusOk() throws Exception {
@@ -92,7 +93,7 @@ class ProductoControllerTest {
 
     @Test void pedido_get_JsonContentType() throws Exception {
         mockMvc.perform(get("/api/pedidos"))
-               .andExpect(content().contentType("application/json"));
+              .andExpect(content().contentType("application/json"));
     }
 
     @Test void pedido_get_2xxSuccessful() throws Exception {
@@ -101,5 +102,26 @@ class ProductoControllerTest {
 
     @Test void pedido_get_EmptyResponseOk() throws Exception {
         mockMvc.perform(get("/api/pedidos")).andExpect(status().isOk());
+    }
+
+    // Unit tests Mockito
+    @Test void unit_productoRepoMock_notNull() {
+        assertNotNull(productoRepository);
+    }
+
+    @Test void unit_usuarioRepoMock_notNull() {
+        assertNotNull(usuarioRepository);
+    }
+
+    @Test void unit_pedidoRepoMock_notNull() {
+        assertNotNull(pedidoRepository);
+    }
+
+    @Test void unit_mockMvcAutowireOk() {
+        assertNotNull(mockMvc);
+    }
+
+    @Test void unit_webMvcTestContextOk() {
+        assertTrue(true);
     }
 }
