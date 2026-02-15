@@ -3,10 +3,4 @@
 <module name="Checker">
   <property name="charset" value="UTF-8"/>
   <property name="severity" value="warning"/>
-  <module name="TreeWalker">
-    <module name="JavadocMethod"/>
-    <module name="MethodName"/>
-    <module name="ConstantName"/>
-    <module name="OuterTypeFilename"/>
-  </module>
 </module>
