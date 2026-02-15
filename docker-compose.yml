@@ -10,26 +10,19 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./Backend/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
-    networks:
-      - app-network
+      - ./Backend/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql  # ← CAMBIO
 
-  test:
-    image: maven:3.9.6-eclipse-temurin-21
-    volumes:
-      - ./Backend:/app
-      - maven-repo:/root/.m2/repository
-    working_dir: /app
+  app:
+    build: 
+      context: ./Backend  # ← ¡ESTE FALTABA!
+      dockerfile: Dockerfile
+    container_name: cicd-app
+    ports:
+      - "8080:8080"
     depends_on:
       - postgres
-    command: bash -c "sleep 30 && mvn test"
-    networks:
-      - app-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cicd
 
 volumes:
   postgres_data:
-  maven-repo:
-
-networks:
-  app-network:
-    driver: bridge

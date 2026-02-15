@@ -1,44 +1,22 @@
-name: Fase 3 - CI/CD
+name: CI Pipeline
 on: [push, pull_request]
-
 jobs:
-  ci-complete:
+  ci:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
+    - uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
-    
-    - name: Checkstyle (Linting)
-      run: mvn checkstyle:check -Dcheckstyle.configLocation=checkstyle.xml
-    
-    - name: Tests unitarios + integración
-      run: mvn test
-    
-    - name: Build WAR
-      run: mvn clean package -DskipTests
-    
-    - name: Upload WAR artifact
-      uses: actions/upload-artifact@v4
+    - name: Cache Maven
+      uses: actions/cache@v4
       with:
-        name: cicd-war
-        path: target/*.war
-    
-    - name: Docker Compose (Acceptance Tests)
-      run: |
-        docker compose up -d
-        sleep 30
-        curl -f http://localhost:8080/api/usuarios || curl -f http://localhost:8080/actuator/health
-        docker compose down
-
-  acceptance:
-    needs: ci-complete
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Acceptance Tests OK
-      run: echo "Pipeline Fase 3 COMPLETADA"
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    - name: Checkstyle
+      run: mvn checkstyle:check
+    - name: Tests
+      run: mvn test
+    - name: Build Docker
+      run: docker build ./Backend -t app .

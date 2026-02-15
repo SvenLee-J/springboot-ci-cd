@@ -1,12 +1,10 @@
 spring:
   datasource:
-    url: jdbc:tc:postgresql:16:///cicd?TC_DAEMON=true
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:postgresql://postgres:5432/cicd
+    username: user
+    password: pass
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    show-sql: false
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:db/data.sql
+      ddl-auto: update
+    show-sql: true
