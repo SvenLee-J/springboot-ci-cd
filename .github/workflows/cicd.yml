@@ -21,8 +21,7 @@ jobs:
     - name: Run Tests
       run: cd Backend && mvn test
     
-    - name: Build Docker images
-      run: docker build ./Backend -t cicd-app .
-    
-    - name: Test Docker Compose (optional)
-      run: docker-compose up -d && sleep 10 && curl http://localhost:8080/api/usuarios || true
+    - name: Build Docker image
+      run: |
+        cd Backend
+        docker build -t cicd-app .
