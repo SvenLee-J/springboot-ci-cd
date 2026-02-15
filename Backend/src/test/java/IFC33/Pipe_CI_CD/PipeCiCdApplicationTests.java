@@ -124,4 +124,36 @@ class ProductoControllerTest {
     @Test void unit_webMvcTestContextOk() {
         assertTrue(true);
     }
+
+     // Service layer tests
+    @Test
+    void service_producto_getAll_emptyListOk() throws Exception {
+        mockMvc.perform(get("/api/productos")).andExpect(status().isOk());
+    }
+
+    @Test
+    void service_usuario_getAll_emptyListOk() throws Exception {
+        mockMvc.perform(get("/api/usuarios")).andExpect(status().isOk());
+    }
+
+    @Test
+    void service_pedido_getAll_emptyListOk() throws Exception {
+        mockMvc.perform(get("/api/pedidos")).andExpect(status().isOk());
+    }
+
+    @Test
+    void service_producto_post_validJsonOk() throws Exception {
+        mockMvc.perform(post("/api/productos")
+                .contentType("application/json")
+                .content("{\"nombre\":\"Test\",\"precio\":99.99}"))
+              .andExpect(status().isOk());
+    }
+
+    @Test
+    void service_usuario_post_validJsonOk() throws Exception {
+        mockMvc.perform(post("/api/usuarios")
+                .contentType("application/json")
+                .content("{\"nombre\":\"Test\",\"email\":\"test@test.com\"}"))
+              .andExpect(status().isOk());
+    }
 }
