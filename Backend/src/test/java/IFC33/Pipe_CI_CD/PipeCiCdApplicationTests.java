@@ -156,4 +156,37 @@ class ProductoControllerTest {
                 .content("{\"nombre\":\"Test\",\"email\":\"test@test.com\"}"))
               .andExpect(status().isOk());
     }
+
+    // Integration tests prep
+    @Test
+    void integration_producto_get_pathOk() throws Exception {
+        mockMvc.perform(get("/api/productos")).andExpect(status().isOk());
+    }
+
+    @Test
+    void integration_usuario_get_pathOk() throws Exception {
+        mockMvc.perform(get("/api/usuarios")).andExpect(status().isOk());
+    }
+
+    @Test
+    void integration_pedido_get_pathOk() throws Exception {
+        mockMvc.perform(get("/api/pedidos")).andExpect(status().isOk());
+    }
+
+    @Test
+    void integration_post_producto_contentTypeOk() throws Exception {
+        mockMvc.perform(post("/api/productos")
+                .contentType("application/json")
+                .content("{}"))
+              .andExpect(status().isOk());
+    }
+
+    @Test
+    void integration_post_usuario_contentTypeOk() throws Exception {
+        mockMvc.perform(post("/api/usuarios")
+                .contentType("application/json")
+                .content("{}"))
+              .andExpect(status().isOk());
+    }
+
 }
