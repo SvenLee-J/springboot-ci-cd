@@ -18,8 +18,11 @@ jobs:
         path: Backend/.m2/repository
         key: ${{ runner.os }}-m2-${{ hashFiles('Backend/pom.xml') }}
     
-    - name: Run Tests
-      run: cd Backend && mvn test
+    - name: Build and Test
+      run: |
+        cd Backend
+        mvn clean package  # ← BUILD JAR PRIMERO!
+        mvn test           # ← Tests DESPUÉS
     
     - name: Build Docker image
       run: |
