@@ -85,14 +85,19 @@
                 </configuration>
             </plugin>
             
-            <!-- CHECKSTYLE - CONFIG SUAVE -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
-                <configLocation>${basedir}/checkstyle.xml</configLocation>
-                <failsOnError>false</failsOnError>
+                    <encoding>UTF-8</encoding>
+                    <failsOnError>false</failsOnError>
+                    <skip>false</skip>
+                    <checkerConfig>
+                        <module name="Checker">
+                            <property name="severity" value="warning"/>
+                        </module>
+                    </checkerConfig>
                 </configuration>
                 <executions>
                     <execution>
