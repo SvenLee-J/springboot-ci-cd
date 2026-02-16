@@ -17,6 +17,9 @@ jobs:
       with:
         path: Backend/.m2/repository
         key: ${{ runner.os }}-m2-${{ hashFiles('Backend/pom.xml') }}
+        
+    - name: Checkstyle
+      run: cd Backend && mvn checkstyle:check
     
     - name: Build and Test
       run: |
@@ -28,3 +31,5 @@ jobs:
       run: |
         cd Backend
         docker build -t cicd-app .
+
+
